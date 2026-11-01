@@ -1,0 +1,10 @@
+Include/
+Lib/
+Scripts/
+cascades/
+share/
+pyvenv.cfg
+__pycache__/
+*.pyc
+annotations.json
+results/
