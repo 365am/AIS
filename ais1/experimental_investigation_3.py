@@ -10,7 +10,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from mediapipe_face_detection import create_detector, detect_faces, detect_haar
+from mediapipe_face_detection_2 import create_detector, detect_faces, detect_haar
 
 
 Box = tuple[float, float, float, float]
