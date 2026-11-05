@@ -120,6 +120,22 @@ provides keypoints, while Haar is simpler and can be faster on small images.
 The actual comparison should report the face count and note missed or extra
 detections observed in the image/webcam experiment.
 
+## Interpretation
+
+For a low-cost embedded device intended to detect people at short range, I
+would select the MediaPipe BlazeFace detector. Although its CNN requires more
+computation than a Haar cascade, my observations suggest that it gives more
+reliable detections when the face is not perfectly frontal or the lighting
+changes, so the reduction in missed detections is worth the extra cost. Haar
+would be preferable only when the device is extremely resource-constrained
+and the camera view can be tightly controlled.
+
+Before deployment, I would run both detectors on a representative video
+dataset using the actual target device and measure missed detections, false
+positives, latency, and sustained frames per second across expected lighting
+and face poses. This would verify that BlazeFace's reliability advantage is
+large enough for the available compute and power budget.
+
 ## Experimental investigation
 
 Create a copy of `annotations.example.json`, review the face boxes, and add
