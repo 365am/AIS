@@ -1,25 +1,11 @@
-# Air Quality Classification (Assignment 2, Part 2)
+# Air Quality Classification Using Python
 
 This project trains a Decision Tree and a Multilayer Perceptron (MLP) to classify
 air-quality categories from the supplied pollutant-specific AQI measurements. It
 reports test accuracy and confusion matrices, and can compare model predictions
 with current measurements and the direct maximum-AQI rule.
 
-## 1. Put the dataset in the project folder
-
-Download `air_quality.arff` from the assignment's e-classroom and place it beside
-`main.py`:
-
-```text
-ais2/
-├── main.py
-├── README.md
-└── air_quality.arff
-```
-
-The dataset is provided by the course. It is not included in this project.
-
-## 2. Install Python dependencies
+## 1. Install Python dependencies
 
 Open a terminal in this folder and run:
 
@@ -29,7 +15,7 @@ python -m pip install pandas scipy scikit-learn
 
 Python 3.9 or newer is recommended.
 
-## 3. Inspect the dataset and run the models
+## 2. Inspect the dataset and run the models
 
 Run:
 
@@ -38,20 +24,22 @@ python main.py
 ```
 
 The script prints the dataset shape, column names and data types, a sample of
-the rows, and the number of examples in each class. It assumes the **last
-column** is the target class. Check that this is correct. If the class column
+the rows, and the number of examples in each class. If the class column
 has another name, pass it explicitly:
 
 ```bash
-python main.py --target "Air Quality"
+python main.py --target quality
 ```
 
 Column names must match the ARFF file exactly. If the dataset is elsewhere, use
 `--data`, for example:
 
 ```bash
-python main.py --data "C:\path\to\air_quality.arff" --target "Air Quality"
+python main.py --data "C:\path\to\air_quality.arff.txt" --target quality
 ```
+
+For the supplied dataset, the class column is `quality`; the input columns are
+`pm25`, `pm10`, `o3`, `no2`, and `so2`.
 
 The script makes a stratified, reproducible 80% training / 20% testing split.
 It trains:
@@ -66,7 +54,7 @@ reproducible. Missing numeric feature values are filled with the training
 features' medians. The target column must not contain missing values, and all
 input features must be numeric.
 
-## 4. Read the evaluation results
+## 3. Evaluation Results
 
 For each classifier the script prints:
 
@@ -78,12 +66,9 @@ For each classifier the script prints:
 - **Per-class precision, recall, and F1 score**: additional measures of
   performance for each category.
 
-Compare both algorithms on the same test split. A Decision Tree is generally
-easier to interpret as decision rules; an MLP can learn nonlinear patterns but
-is usually less interpretable. Report the measured results rather than
-assuming either model performs better.
 
-## 5. Compare against current Ljubljana readings
+
+## 4. Compare against current Ljubljana readings
 
 Visit the Ljubljana air-quality page:
 
@@ -96,7 +81,7 @@ the dataset. Run the script with one `--current-aqi FEATURE=VALUE` option per
 feature, using the exact feature names printed by `main.py`:
 
 ```bash
-python main.py --current-aqi "PM2.5=42" --current-aqi "PM10=55" --current-aqi "O3=31" --current-aqi "NO2=18" --current-aqi "SO2=4" --reported-category "Moderate"
+python main.py --current-aqi "pm25=42" --current-aqi "pm10=55" --current-aqi "o3=31" --current-aqi "no2=18" --current-aqi "so2=4" --reported-category "moderate"
 ```
 
 Replace the example readings, feature names, and website category with the
@@ -110,7 +95,7 @@ not available on the website, the script will still calculate the direct rule
 from the values you entered, but it will skip model predictions for the current
 readings. Do not invent missing measurements.
 
-## 6. Direct AQI calculation and interpretation
+## 5. Direct AQI calculation and interpretation
 
 The script calculates the maximum of the supplied pollutant-specific AQI
 values, then maps it to the assignment's categories:
@@ -135,13 +120,3 @@ calculated directly from the maximum of those same pollutant AQIs, the direct
 rule already defines the answer; machine learning is not necessary to compute
 it, though it is useful for comparing learned classifiers as the assignment
 asks.
-
-## What to include in the report
-
-1. Dataset dimensions, input feature names, target column, and class counts.
-2. The 80/20 split and the settings used for both classifiers.
-3. Test accuracy and confusion matrix for each model.
-4. A short comparison of errors and model interpretability.
-5. The readings, location, and time used for the current-air-quality check.
-6. Website category, each model's prediction (if available), and direct-rule
-   category, followed by a brief discussion of agreement or differences.
